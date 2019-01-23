@@ -1,0 +1,160 @@
+//Author Brian Kelly 
+//Date 2014
+
+import java.util.*;
+
+class Main {
+
+    
+    public static void main(String args[]) {//start of main
+
+    	Scanner input=new Scanner(System.in);
+
+    	String memberusername_[]={"Brian","Jacob","Kevin","Pat","Ben"};//Array for Names, username
+    	String member_user_pincode[]={"1111","2222","3333","4444","5555"};//array for pins
+    	int member_points_score[]={250,700,400,1200,800};//array for points (user)
+    	String member_gift[]={"Toaster", "Kettle", "Beaker", "Blender", "iPod"};//array for gifts
+    	int member_gift_points_score[]={300,50,800,1000, 2000};//array for member points
+    	String member_user_input;//take in user input
+    	String user_member_name,user_member_pin;
+    	int member_choice1=0, member_choice2=0, flag=0, found=0, suba=0, giftchoice=0, addpoints=0, counter=2, validpina=0;//ints delcared
+    	String newpin="";//for users new pin
+
+    	String output= "\nChoose an option\n *-1:View Gifts\n-* 2:Buy Gifts\n *-3:Add Points\n-* 4:Change Pin\n *-5:Exit\n-*";//To print the menu, promting user
+		//prompt user to log in or exit
+		System.out.println("*-*-*-*-*-*-**-*-*-*-*-*-*");
+		System.out.println("Welcome, select an option");
+		System.out.println("*-*-*-*-*-*-**-*-*-*-*-*-*");
+		System.out.println("1: Log in\n2: Exit");//option to either log in or exit
+		member_user_input = input.next();//take in user input
+		while(!member_user_input.matches("[1-2]")){
+    		System.out.println("Error, use the numbers 1-2 only");//if error print out 1-2
+    			System.out.println("Choose an option\n\n1: Log in\n2: Exit");//print option
+    			member_user_input = input.next();//take in user input
+    	}
+    	member_choice1 = Integer.parseInt(member_user_input);//
+    		if (member_choice1 == 1){
+    		System.out.println("*-Enter username: ");//promt useer for their username
+    		user_member_name= input.next();
+    		System.out.println("*-Enter pincode");//promt user for pin
+    		user_member_pin= input.next();//take in user input
+    		for (int i=0; i<memberusername_.length; i++){
+    			if (user_member_name.matches(memberusername_[i]) && user_member_pin.matches(member_user_pincode[i])){//checking pin and name
+    				suba=i;
+    				found=1;
+    			}
+    		}
+			while(found==0){
+            	if (member_choice1 == 1){
+    		System.out.println("*-Enter username: ");//promt user for name
+    		user_member_name= input.next();
+    		System.out.println("*-Enter pincode:");//promt user for pin
+    		user_member_pin= input.next();//take in input
+			for (int i=0; i<memberusername_.length; i++){//start for
+    			if (user_member_name.matches(memberusername_[i]) && user_member_pin.matches(member_user_pincode[i])){//checking pin and name statrt if
+    				suba=i;
+    				found=1;
+    			}//end inner if
+    		}//end of for loop
+    		counter--;
+    		if(counter==0){//start if
+    			System.out.println("\n No more attempts left you entered the inncoorrect pin too many times");//counting tries if fail all attempts exit programme
+    			System.exit(0);
+    		}//end if
+            }//end of main if
+
+            }//end while
+            System.out.println("Welcome");
+            while(found==1){
+            	System.out.print(output);//print out option for user
+            	member_user_input = input.next();//take in input option
+                while(!member_user_input.matches("[1-5]")){//start while inout matches
+            		System.out.println("Numbers 1-5 only");
+    				System.out.println(output);
+    				member_user_input = input.next();//user input
+            	}//end while
+            	member_choice2 = Integer.parseInt(member_user_input);//member choice
+            	if (member_choice2 == 1){//start if
+            		System.out.println("\n*-Gifts-*\n");
+					for(int i=0; i<=4; i++)
+					System.out.println(member_gift[i]+"\t\t"+member_gift_points_score[i]);
+            	}//if choice2=1 end
+            	else if (member_choice2 ==2){//start choice2=2
+            		System.out.println("*-Enter No. of gift you want");
+            		member_user_input = input.next();
+            		while(!member_user_input.matches("[1-5]")){//start while
+            			System.out.println("Numbers 1-5 only");
+    					System.out.println(output);
+    					member_user_input = input.next();
+            		}//end while
+            		giftchoice = Integer.parseInt(member_user_input);
+            		if (member_points_score[suba] < member_gift_points_score[giftchoice - 1]){//start if
+            			System.out.println("Insufficent points, top up your points");
+            		}//end if
+            		else{//start else
+            		member_points_score[suba] = member_points_score[suba] - member_gift_points_score[giftchoice -1];
+            			System.out.println("You now have a "+member_gift[giftchoice-1]);
+            		}//end else
+            	}//choice2=2 end
+            		else if (member_choice2 ==3){//start choice2=3
+            		System.out.println("*-Enter points to add: ");
+            		member_user_input = input.next();
+            		addpoints = Integer.parseInt(member_user_input);
+            		if (member_points_score[suba] > -1){//start if
+            			member_points_score[suba] = member_points_score[suba] + addpoints;
+            			System.out.println("You added points, new points is "+member_points_score[suba]);
+            		}//end if
+            	}//choice2=3/>
+            		else if (member_choice2 ==4){//start choice2=4
+            	//prompt user to enter new pin
+				System.out.println("*-Enter new pin");
+				//new pin is entered
+				member_user_input=input.next();
+				//check newpin only contains digits
+    	        while(!member_user_input.matches("\\d+")){//start while
+    	        	System.out.println("Numbers only");
+    		        System.out.print("Enter the new pin you want to put in use: " );
+    		        //take in newpin as a string
+    	      	    member_user_input = input.next();
+
+    		    }//end while
+				//prompt the user the pin has been changed
+				System.out.println("New pin is"+newpin);
+				newpin=member_user_input;
+				for(int i=0; i<memberusername_.length;i++){
+					if(newpin.matches(member_user_pincode[i])){
+						System.out.println("You cant use this pincode, think of another to enter \n");
+						validpina=0;
+					}// end of if statement
+
+					}// end of for loop for pin validation
+
+					if(validpina==1){//start if
+						System.out.println("Pin changed");
+						member_user_pincode[suba]=newpin;
+					}//end if
+					else{//start else
+						System.out.println("");
+					}//end else
+
+				}//end main else
+				else{//start else
+            		System.out.print("Goodbye");
+            		System.exit(0);
+            	}//end else
+
+            }//end while
+
+            }
+            else{//strat else
+            	System.out.println("Goodbye");
+	    		System.exit(0);
+            }//end else
+
+    	}//main
+
+
+
+    }//class end
+
+
